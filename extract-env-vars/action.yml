@@ -1,0 +1,19 @@
+name: 'var extractor'
+description: 'Extracts env vars for a helm chart'
+inputs:
+  prefix:
+    description: 'What prefix to use when deciding if an env var should be included'
+    required: true
+    default: 'APP_SECRET_'
+  
+  out_location:
+    description: 'Where to place the yaml file'
+    required: true
+    default: './app/app-secrets.yaml'
+runs:
+  using: 'composite'
+  steps:
+  - shell: bash
+    run: |
+      ${{ github.action_path }}/extract ${{ inputs.prefix }} ${{ inputs.out_location }}
+  

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+SECRET_FILE="$2"
+ENV_VAR_PREFIX="$1"
+
+# Initialize the YAML content
+echo "secrets:" > "$SECRET_FILE"
+
+echo "Searching for secrets $ENV_VAR_PREFIX"
+
+# Loop over environment variables with prefix $ENV_VAR_PREFIX
+for var in $(env | grep "^$ENV_VAR_PREFIX"); do
+  # Extract key and value
+  key=$(echo "$var" | cut -d= -f1 | sed "s/^${ENV_VAR_PREFIX}//")
+  value=$(echo "$var" | cut -d= -f2-)
+
+  echo "Found $key"
+
+  # Append to the YAML file without the prefix
+  echo "  $key: \"$value\"" >> "$SECRET_FILE"
+done
