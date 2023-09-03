@@ -13,6 +13,10 @@ inputs:
 runs:
   using: 'composite'
   steps:
+
+  - shell: bash
+    run: |
+      env
   - shell: bash
     run: |
       ${{ github.action_path }}/extract ${{ inputs.prefix }} ${{ inputs.out_location }}
